@@ -89,7 +89,7 @@
             <ToolTip.Tip>
                 <Label Content="{x:Static assets:StringsAndTexts.AddKeyWindowAbortButtonToolTipText}" />
             </ToolTip.Tip>
-            <avalonia:MaterialIcon Kind="Cancel" />
+            <Label Content="{x:Static assets:StringsAndTexts.ButtonCancel}" />
         </Button>
 
     </Grid>

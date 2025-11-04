@@ -25,7 +25,7 @@
         </ScrollViewer>
         <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" ColumnDefinitions="* *" HorizontalAlignment="Stretch"
               VerticalAlignment="Bottom">
-            <Button Grid.Column="0" Margin="5" Background="Red" HorizontalAlignment="Stretch"
+            <Button Grid.Column="0" Margin="5" Background="LightRed" HorizontalAlignment="Stretch"
                     VerticalAlignment="Bottom"
                     Command="{Binding BooleanSubmit}" HorizontalContentAlignment="Center">
                 <Button.CommandParameter>
@@ -34,9 +34,9 @@
                 <ToolTip.Tip>
                     <Label Content="{x:Static openSshGui:StringsAndTexts.CancelAndClose}" />
                 </ToolTip.Tip>
-                <avalonia:MaterialIcon Kind="Cancel" />
+                <Label Content="{x:Static openSshGui:StringsAndTexts.ButtonCancel}" />
             </Button>
-            <Button Grid.Column="1" Margin="5" Background="ForestGreen" HorizontalAlignment="Stretch"
+            <Button Grid.Column="1" Margin="5" Background="LightBlue" HorizontalAlignment="Stretch"
                     VerticalAlignment="Bottom"
                     Command="{Binding BooleanSubmit}" HorizontalContentAlignment="Center">
                 <Button.CommandParameter>
@@ -45,10 +45,7 @@
                 <ToolTip.Tip>
                     <Label Content="{x:Static openSshGui:StringsAndTexts.ExportWindowCopyToClipboardToolTipText}" />
                 </ToolTip.Tip>
-                <StackPanel Orientation="Horizontal">
-                    <avalonia:MaterialIcon Kind="ContentCopy" />
-                    <avalonia:MaterialIcon Kind="Clipboard" />
-                </StackPanel>
+                <Label Content="{x:Static openSshGui:StringsAndTexts.ButtonCopy}" />
             </Button>
         </Grid>
 

@@ -135,7 +135,7 @@
                 <ToolTip.Tip>
                     <Label Content="{x:Static openSshGui:StringsAndTexts.EditKnownHostsWindowDismissButtonToolTipText}" />
                 </ToolTip.Tip>
-                <avalonia:MaterialIcon Kind="Cancel" />
+                <Label Content="{x:Static openSshGui:StringsAndTexts.ButtonCancel}" />
             </Button>
             <Button Grid.Row="0" Grid.Column="1" HorizontalAlignment="Stretch" Background="Green" Margin="5 0"
                     Command="{Binding BooleanSubmit}">

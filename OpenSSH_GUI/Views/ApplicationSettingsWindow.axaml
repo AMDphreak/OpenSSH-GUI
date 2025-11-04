@@ -69,7 +69,7 @@
             <ToolTip.Tip>
                 <Label Content="{x:Static openSshGui:StringsAndTexts.CancelAndClose}" />
             </ToolTip.Tip>
-            <avalonia:MaterialIcon Kind="Cancel" />
+            <Label Content="{x:Static openSshGui:StringsAndTexts.ButtonCancel}" />
         </Button>
         <Button Grid.Row="3" Grid.Column="1" HorizontalAlignment="Stretch" VerticalAlignment="Bottom"
                 Command="{Binding BooleanSubmit}" Background="Green">

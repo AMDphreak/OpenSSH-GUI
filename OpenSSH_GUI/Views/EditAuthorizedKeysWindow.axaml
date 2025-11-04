@@ -112,7 +112,7 @@
             <ToolTip.Tip>
                 <Label Content="{x:Static openSshGui:StringsAndTexts.CancelAndClose}" />
             </ToolTip.Tip>
-            <materialIcons:MaterialIcon Kind="Cancel" />
+            <Label Content="{x:Static openSshGui:StringsAndTexts.ButtonCancel}" />
         </Button>
         <Button Grid.Column="1" Grid.Row="1" HorizontalAlignment="Stretch" Margin="5 0"
                 Command="{Binding BooleanSubmit}"
