@@ -15,6 +15,7 @@ public interface ISshPublicKey : ISshKey
 {
     /// <summary>
     ///     Represents the private key associated with an SSH public key.
+    ///     May be null if the private key file doesn't exist or cannot be loaded.
     /// </summary>
-    ISshKey PrivateKey { get; }
+    ISshKey? PrivateKey { get; }
 }
