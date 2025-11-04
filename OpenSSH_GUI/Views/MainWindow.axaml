@@ -12,6 +12,9 @@
         x:DataType="viewModels:MainWindowViewModel"
         Width="1150"
         Height="450"
+        MinWidth="900"
+        MinHeight="300"
+
         
         Title="{x:Static openSshGui:StringsAndTexts.MainWindowTitle}">
     <Window.Resources>
@@ -19,16 +22,22 @@
 
     </Window.Resources>
     <Window.Styles>
+        <!-- Header cell border styling - can be applied to any element -->
+        <Style Selector="Border.HeaderCell">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="LightGray" />
+            <Setter Property="BorderThickness" Value="0 0 1 1" />
+            <Setter Property="CornerRadius" Value="0" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        
         <Style Selector="ToggleButton.Sorter:pressed">
             <Setter Property="RenderTransform" Value="{x:Null}" />
         </Style>
         <Style Selector="ToggleButton.Sorter">
             <Setter Property="Template">
                 <ControlTemplate>
-                    <Border Background="Transparent"
-                            BorderBrush="DimGray"
-                            BorderThickness="0 0 1 1"
-                            CornerRadius="0">
+                    <Border Classes="HeaderCell">
                         <ContentPresenter Content="{TemplateBinding Content}"
                                           HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                           VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
@@ -38,24 +47,94 @@
             <Setter Property="IsThreeState" Value="True" />
             <Setter Property="ClickMode" Value="Release" />
             <Setter Property="HorizontalAlignment" Value="Stretch" />
-            <Setter Property="VerticalAlignment" Value="Bottom" />
-            <Setter Property="Margin" Value="0 0" />
+            <Setter Property="VerticalAlignment" Value="Stretch" />
+            <Setter Property="Margin" Value="0" />
             <Setter Property="CornerRadius" Value="0" />
             <Setter Property="HorizontalContentAlignment" Value="Center" />
             <Setter Property="VerticalContentAlignment" Value="Center" />
             <Setter Property="Padding" Value="0 10" />
         </Style>
+        
+        <!-- First column header needs left border -->
+        <Style Selector="ToggleButton.Sorter.FirstColumn">
+            <Setter Property="Template">
+                <ControlTemplate>
+                    <Border BorderBrush="LightGray" BorderThickness="1 0 1 1"
+                            Background="Transparent" CornerRadius="0" Margin="0">
+                        <ContentPresenter Content="{TemplateBinding Content}"
+                                          HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                          VerticalAlignment="{TemplateBinding VerticalContentAlignment}" />
+                    </Border>
+                </ControlTemplate>
+            </Setter>
+        </Style>
+        
+        <!-- Button hover styles for outline buttons -->
+        <Style Selector="Button.AddKeyButton:pointerover">
+            <Setter Property="BorderBrush" Value="#006600" />
+        </Style>
+        <Style Selector="Button.AddKeyButton:pointerover materialIcons|MaterialIcon">
+            <Setter Property="Foreground" Value="#006600" />
+        </Style>
+        
+        <Style Selector="Button.EditKnownHostsButton:pointerover">
+            <Setter Property="BorderBrush" Value="#004499" />
+        </Style>
+        <Style Selector="Button.EditKnownHostsButton:pointerover materialIcons|MaterialIcon">
+            <Setter Property="Foreground" Value="#004499" />
+        </Style>
+        
+        <Style Selector="Button.EditAuthorizedKeysButton:pointerover">
+            <Setter Property="BorderBrush" Value="#006699" />
+        </Style>
+        <Style Selector="Button.EditAuthorizedKeysButton:pointerover materialIcons|MaterialIcon">
+            <Setter Property="Foreground" Value="#006699" />
+        </Style>
+        
+        <!-- Status panel button hover styles -->
+        <Style Selector="Button.StatusPanelButton:pointerover">
+            <Setter Property="Background" Value="#D3D3D3" />
+        </Style>
+        
+        <!-- Table row separator styling -->
+        <Style Selector="Separator.TableRowSeparator">
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="Height" Value="1" />
+            <Setter Property="Margin" Value="10 8" />
+            <Setter Property="Opacity" Value="0.6" />
+        </Style>
     </Window.Styles>
 
-    <Grid RowDefinitions="* 7* *" ColumnDefinitions="* * *" Margin="20 5" HorizontalAlignment="Stretch">
+    <Grid RowDefinitions="Auto 1* Auto" ColumnDefinitions="* * *" Margin="0" HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
 
         <!-- Key List -->
 
-        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2" ColumnDefinitions="* 3* * *"
-              RowDefinitions="* 10*">
+        <Grid Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Grid.RowSpan="2" 
+              RowDefinitions="50 1*" 
+              MinHeight="200"
+              MinWidth="860"
+              VerticalAlignment="Top"
+              HorizontalAlignment="Stretch"
+              Margin="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150" MinWidth="150" MaxWidth="150" />
+                <ColumnDefinition Width="70" MinWidth="70" MaxWidth="70" />
+                <ColumnDefinition Width="1*" MinWidth="200" />
+                <ColumnDefinition Width="150" MinWidth="150" MaxWidth="150" />
+                <ColumnDefinition Width="220" MinWidth="220" MaxWidth="220" />
+            </Grid.ColumnDefinitions>
+            
+            <!-- Top border to reach window edge -->
+            <Border Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="5" 
+                    BorderBrush="LightGray" 
+                    BorderThickness="0 1 0 0" 
+                    VerticalAlignment="Top" 
+                    Height="1" 
+                    Margin="0" />
 
             <!-- Heading  -->
-            <ToggleButton Grid.Row="0" Grid.Column="0" Classes="Sorter" IsChecked="{Binding KeyTypeSort}">
+            <ToggleButton Grid.Row="0" Grid.Column="0" Classes="Sorter FirstColumn" IsChecked="{Binding KeyTypeSort}" 
+                          Width="150" MinWidth="150" MaxWidth="150" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="3" Margin="5">
                     <materialIcons:MaterialIcon Kind="KeyVariant" Margin="0" Padding="0" />
                     <Label Content="{x:Static openSshGui:StringsAndTexts.MainWindowDataGridColumnHeadingKeyTypeText}" />
@@ -63,16 +142,25 @@
                 </StackPanel>
             </ToggleButton>
 
-            <ToggleButton Grid.Row="0" Grid.Column="1" Classes="Sorter" IsChecked="{Binding FingerPrintSort}">
-                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="3" Margin="5">
+            <Border Grid.Row="0" Grid.Column="1" Classes="HeaderCell"
+                     HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="3" Margin="10">
                     <materialIcons:MaterialIcon Kind="Fingerprint" Margin="0" Padding="0" />
+                </StackPanel>
+            </Border>
+
+            <ToggleButton Grid.Row="0" Grid.Column="2" Classes="Sorter" IsChecked="{Binding PathSort}" 
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch" MinWidth="200" Margin="0">
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="3" Margin="5">
+                    <materialIcons:MaterialIcon Kind="FolderOutline" Margin="0" Padding="0" />
                     <Label
-                        Content="{x:Static openSshGui:StringsAndTexts.MainWindowDataGridColumnHeadingFingerprintText}" />
-                    <materialIcons:MaterialIcon Kind="{Binding FingerPrintSortDirectionIcon}" Margin="5 0" Padding="0" />
+                        Content="{x:Static openSshGui:StringsAndTexts.MainWindowDataGridColumnHeadingPathText}" />
+                    <materialIcons:MaterialIcon Kind="{Binding PathSortDirectionIcon}" Margin="5 0" Padding="0" />
                 </StackPanel>
             </ToggleButton>
 
-            <ToggleButton Grid.Row="0" Grid.Column="2" Classes="Sorter" IsChecked="{Binding CommentSort}">
+            <ToggleButton Grid.Row="0" Grid.Column="3" Classes="Sorter" IsChecked="{Binding CommentSort}" 
+                          Width="150" MinWidth="150" MaxWidth="150" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="3" Margin="5">
                     <materialIcons:MaterialIcon Kind="Comment" Margin="0" Padding="0" />
                     <TextPresenter
@@ -81,7 +169,8 @@
                 </StackPanel>
             </ToggleButton>
 
-            <ToggleButton Grid.Row="0" Grid.Column="3" Classes="Sorter" IsEnabled="False">
+            <ToggleButton Grid.Row="0" Grid.Column="4" Classes="Sorter" IsEnabled="False" 
+                          Width="220" MinWidth="220" MaxWidth="220" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Margin="0">
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Spacing="3" Margin="5">
                     <materialIcons:MaterialIcon Kind="FileExportOutline" />
                     <Label
@@ -89,10 +178,13 @@
                 </StackPanel>
             </ToggleButton>
 
-            <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="4" VerticalAlignment="Top">
+            <ScrollViewer Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="5"
+                          VerticalScrollBarVisibility="Auto"
+                          HorizontalScrollBarVisibility="Disabled"
+                          ClipToBounds="True">
                 <ItemsControl ItemsSource="{Binding SshKeys}"
-                              Margin="5"
                               VerticalAlignment="Stretch"
+                              HorizontalAlignment="Stretch"
                               Name="TheItemsGrid"
                               ItemTemplate="{DynamicResource SshKeyFullStyle}" />
 
@@ -101,73 +193,91 @@
 
         <!-- Bottom Controls -->
 
-        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" RowDefinitions="*" ColumnDefinitions="* * * *">
+        <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" RowDefinitions="Auto" ColumnDefinitions="Auto * Auto" 
+              MinHeight="50" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
+              Background="#F5F5F5">
 
-            <!-- Open Add Key Window -->
+            <!-- Action Buttons Group -->
+            <Grid Grid.Column="0" ColumnDefinitions="Auto Auto Auto" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 5">
+                <!-- Open Add Key Window -->
+                <Button Grid.Column="0" Classes="AddKeyButton"
+                        Command="{Binding OpenCreateKeyWindow}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Background="#F5F5F5"
+                        BorderBrush="#00AA00"
+                        BorderThickness="2"
+                        MinWidth="80" MinHeight="40"
+                        Margin="0 0 5 0">
+                    <ToolTip.Tip>
+                        <Label Content="{x:Static openSshGui:StringsAndTexts.MainWindowAddKeyToolTip}" />
+                    </ToolTip.Tip>
+                    <materialIcons:MaterialIcon Kind="KeyAdd" Foreground="#00AA00" />
+                </Button>
 
-            <Button Grid.Column="0"
-                    Command="{Binding OpenCreateKeyWindow}"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    Background="ForestGreen">
-                <ToolTip.Tip>
-                    <Label Content="{x:Static openSshGui:StringsAndTexts.MainWindowAddKeyToolTip}" />
-                </ToolTip.Tip>
-                <StackPanel Orientation="Horizontal">
-                    <materialIcons:MaterialIcon Kind="KeyAdd" />
-                </StackPanel>
-            </Button>
+                <!-- Open Edit Known Host Window  -->
+                <Button Grid.Column="1" Classes="EditKnownHostsButton"
+                        Command="{Binding OpenEditKnownHostsWindow}"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Background="#F5F5F5"
+                        BorderBrush="#0066CC"
+                        BorderThickness="2"
+                        MinWidth="80" MinHeight="40"
+                        Margin="5 0">
+                    <ToolTip.Tip>
+                        <StackPanel>
+                            <Label Content="{x:Static openSshGui:StringsAndTexts.MainWindowEditKnownHostsFileToolTip}" />
+                            <Label Content="{x:Static openSshGui:StringsAndTexts.MainWindowIsNotRemoteTooltipText}"
+                                   Foreground="OrangeRed"
+                                   IsVisible="{Binding !ServerConnection.IsConnected}" />
+                        </StackPanel>
+                    </ToolTip.Tip>
+                    <materialIcons:MaterialIcon Kind="FileAccountOutline" Foreground="#0066CC" />
+                </Button>
 
-            <!-- Open Edit Known Host Window  -->
+                <!-- Open Edit Authorized Keys Window -->
+                <Button Grid.Column="2" Classes="EditAuthorizedKeysButton"
+                        HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
+                        Background="#F5F5F5"
+                        BorderBrush="#0088CC"
+                        BorderThickness="2"
+                        Command="{Binding OpenEditAuthorizedKeysWindow}"
+                        MinWidth="80" MinHeight="40"
+                        Margin="5 0 0 0">
+                    <ToolTip.Tip>
+                        <StackPanel>
+                            <Label Content="{x:Static openSshGui:StringsAndTexts.MainWindowEditAuthorizedKeys}" />
+                            <Label Content="{x:Static openSshGui:StringsAndTexts.MainWindowIsNotRemoteTooltipText}"
+                                   Foreground="OrangeRed"
+                                   IsVisible="{Binding !ServerConnection.IsConnected}" />
+                        </StackPanel>
+                    </ToolTip.Tip>
+                    <materialIcons:MaterialIcon Kind="FileCogOutline" Foreground="#0088CC" />
+                </Button>
+            </Grid>
 
-            <Button Grid.Column="1"
-                    Command="{Binding OpenEditKnownHostsWindow}"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    Background="CornflowerBlue">
-                <ToolTip.Tip>
-                    <StackPanel>
-                        <Label Content="{x:Static openSshGui:StringsAndTexts.MainWindowEditKnownHostsFileToolTip}" />
-                        <Label Content="{x:Static openSshGui:StringsAndTexts.MainWindowIsNotRemoteTooltipText}"
-                               Foreground="OrangeRed"
-                               IsVisible="{Binding !ServerConnection.IsConnected}" />
-                    </StackPanel>
-                </ToolTip.Tip>
-                <StackPanel Orientation="Horizontal">
-                    <materialIcons:MaterialIcon Kind="FileAccountOutline" />
-                </StackPanel>
-            </Button>
+            <!-- Spacer -->
+            <Border Grid.Column="1" />
 
-            <!-- Open Edit Authorized Keys Window -->
-
-            <Button Grid.Column="2"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Top"
-                    Background="DarkOliveGreen"
-                    Command="{Binding OpenEditAuthorizedKeysWindow}">
-                <ToolTip.Tip>
-                    <StackPanel>
-                        <Label Content="{x:Static openSshGui:StringsAndTexts.MainWindowEditAuthorizedKeys}" />
-                        <Label Content="{x:Static openSshGui:StringsAndTexts.MainWindowIsNotRemoteTooltipText}"
-                               Foreground="OrangeRed"
-                               IsVisible="{Binding !ServerConnection.IsConnected}" />
-                    </StackPanel>
-                </ToolTip.Tip>
-                <StackPanel Orientation="Horizontal">
-                    <materialIcons:MaterialIcon Kind="FileCogOutline" />
-                </StackPanel>
-            </Button>
-        </Grid>
-
-        <!-- Status Panel -->
-        <Border Grid.Row="2" Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="10 5"
-                Background="#8c656c73" CornerRadius="5">
-            <Grid ColumnDefinitions="* * * *">
+            <!-- Status Panel -->
+            <Border Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10 5"
+                    Background="GhostWhite" CornerRadius="5" MinHeight="50">
+            <Grid ColumnDefinitions="Auto Auto Auto Auto" HorizontalAlignment="Right">
 
                 <!-- Connection -->
 
-                <Border Grid.Column="0" HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                        Background="Gray" Margin="10 5" Padding="7" CornerRadius="5">
+                <Button Grid.Column="0" Classes="StatusPanelButton" HorizontalAlignment="Stretch" VerticalAlignment="Center"
+                        Background="Gainsboro" Margin="5" Padding="7" CornerRadius="5" MinWidth="50" MinHeight="40"
+                        Name="ConnectionButton"
+                        Click="ConnectionButton_Click">
                     <ToolTip.Tip>
                         <StackPanel>
                             <Grid ColumnDefinitions="* 2*" RowDefinitions="* * *"
@@ -190,7 +300,7 @@
 
 
                     </ToolTip.Tip>
-                    <Border.ContextMenu>
+                    <Button.ContextMenu>
                         <ContextMenu PlacementAnchor="Top" Placement="Top" WindowManagerAddShadowHint="True">
                             <MenuItem Header="{x:Static openSshGui:StringsAndTexts.MainWindowConnectMenuConnect}"
                                       IsEnabled="{Binding !ServerConnection.IsConnected}"
@@ -207,8 +317,8 @@
                                 </MenuItem.Icon>
                             </MenuItem>
                         </ContextMenu>
-                    </Border.ContextMenu>
-                    <StackPanel>
+                    </Button.ContextMenu>
+                    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
                         <StackPanel Orientation="Horizontal" IsVisible="{Binding ServerConnection.IsConnected}">
                             <materialIcons:MaterialIcon Kind="Signal" Foreground="Green" />
                         </StackPanel>
@@ -216,31 +326,47 @@
                             <materialIcons:MaterialIcon Kind="SignalOff" Foreground="Red" />
                         </StackPanel>
                     </StackPanel>
-                </Border>
+                </Button>
 
                 <!-- Item Count -->
 
-                <Border Grid.Column="1" Background="Gray" Margin="10 5" Padding="5" HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch" CornerRadius="5" Child="{Binding ItemsCount}">
+                <Button Grid.Column="1" Classes="StatusPanelButton" Background="Gainsboro" Margin="5" Padding="5" HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch" CornerRadius="5" MinWidth="50" MinHeight="40"
+                        Name="ItemCountButton"
+                        Click="ItemCountButton_Click"
+                        Content="{Binding ItemsCount}"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center">
                     <ToolTip.Tip>
-                        <StackPanel Orientation="Horizontal">
-                            <Label
-                                Content="{x:Static openSshGui:StringsAndTexts.MainWindowFoundKeyPairsCountLabelPart1}" />
-                            <Label Content="{Binding SshKeys.Count}" FontWeight="Bold" />
-                            <Label
-                                Content="{x:Static openSshGui:StringsAndTexts.MainWindowFoundKeyPairsCountLabelPart2}" />
+                        <StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label
+                                    Content="{x:Static openSshGui:StringsAndTexts.MainWindowFoundKeyPairsCountLabelPart1}" />
+                                <Label Content="{Binding KeysInSshDirectoryCount}" FontWeight="Bold" />
+                                <Label
+                                    Content="{x:Static openSshGui:StringsAndTexts.MainWindowFoundKeyPairsCountLabelPart2}" />
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label
+                                    Content="{x:Static openSshGui:StringsAndTexts.MainWindowFoundKeyPairsCountLabelPart1}" />
+                                <Label Content="{Binding KeysInAlternateLocationsCount}" FontWeight="Bold" />
+                                <Label
+                                    Content="{x:Static openSshGui:StringsAndTexts.MainWindowFoundKeyPairsCountLabelPart3}" />
+                            </StackPanel>
                         </StackPanel>
                     </ToolTip.Tip>
-                </Border>
+                </Button>
 
                 <!-- Settings -->
 
-                <Border Grid.Column="2" Background="Gray" Margin="10 5" Padding="7" HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch" CornerRadius="5">
+                <Button Grid.Column="2" Classes="StatusPanelButton" Background="Gainsboro" Margin="5" Padding="7" HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch" CornerRadius="5" MinWidth="50" MinHeight="40"
+                        Name="SettingsButton"
+                        Click="SettingsButton_Click">
                     <ToolTip.Tip>
                         <Label Content="{x:Static openSshGui:StringsAndTexts.MainWindowRightClickOptions}" />
                     </ToolTip.Tip>
-                    <Border.ContextMenu>
+                    <Button.ContextMenu>
                         <ContextMenu PlacementAnchor="Top" Placement="Top" WindowManagerAddShadowHint="True">
                             <MenuItem
                                 Header="{x:Static openSshGui:StringsAndTexts.MainWindowSettingsMenuReloadKeysFromDiskAndForgetPasswords}"
@@ -306,18 +432,20 @@
                                 </MenuItem.Icon>
                             </MenuItem>
                         </ContextMenu>
-                    </Border.ContextMenu>
+                    </Button.ContextMenu>
                     <materialIcons:MaterialIcon Kind="CogOutline" />
-                </Border>
+                </Button>
 
                 <!-- Help -->
 
-                <Border Grid.Column="3" Background="Gray" Margin="10 5" Padding="7" HorizontalAlignment="Stretch"
-                        VerticalAlignment="Stretch" CornerRadius="5">
+                <Button Grid.Column="3" Classes="StatusPanelButton" Background="Gainsboro" Margin="5" Padding="7" HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch" CornerRadius="5" MinWidth="50" MinHeight="40"
+                        Name="HelpButton"
+                        Click="HelpButton_Click">
                     <ToolTip.Tip>
                         <Label Content="{x:Static openSshGui:StringsAndTexts.MainWindowRightClickHelp}" />
                     </ToolTip.Tip>
-                    <Border.ContextMenu>
+                    <Button.ContextMenu>
                         <ContextMenu PlacementAnchor="Top" Placement="Top" WindowManagerAddShadowHint="True">
                             <MenuItem Header="{x:Static openSshGui:StringsAndTexts.MainWindowHelpMenuWebsite}"
                                       Command="{Binding OpenBrowser}">
@@ -348,10 +476,11 @@
                                 </MenuItem.Icon>
                             </MenuItem>
                         </ContextMenu>
-                    </Border.ContextMenu>
+                    </Button.ContextMenu>
                     <materialIcons:MaterialIcon Kind="HelpCircleOutline" />
-                </Border>
+                </Button>
             </Grid>
         </Border>
+        </Grid>
     </Grid>
 </Window>

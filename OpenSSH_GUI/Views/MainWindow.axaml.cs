@@ -8,6 +8,8 @@
 
 using System.Threading.Tasks;
 using Avalonia.Controls;
+using Avalonia.Input;
+using Avalonia.Interactivity;
 using Avalonia.ReactiveUI;
 using OpenSSH_GUI.ViewModels;
 using ReactiveUI;
@@ -96,5 +98,37 @@ public partial class MainWindow : ReactiveWindow<MainWindowViewModel>
             WindowStartupLocation = DefaultWindowStartupLocation
         };
         interaction.SetOutput(await dialog.ShowDialog<EditKnownHostsViewModel>(this));
+    }
+
+    private void SettingsButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (sender is Button button && button.ContextMenu != null)
+        {
+            button.ContextMenu.Open(button);
+        }
+    }
+
+    private void HelpButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (sender is Button button && button.ContextMenu != null)
+        {
+            button.ContextMenu.Open(button);
+        }
+    }
+
+    private void ConnectionButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (sender is Button button && button.ContextMenu != null)
+        {
+            button.ContextMenu.Open(button);
+        }
+    }
+
+    private void ItemCountButton_Click(object? sender, RoutedEventArgs e)
+    {
+        if (sender is Button button && button.ContextMenu != null)
+        {
+            button.ContextMenu.Open(button);
+        }
     }
 }
