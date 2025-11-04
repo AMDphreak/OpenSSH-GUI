@@ -25,6 +25,7 @@ using MsBox.Avalonia.Enums;
 using MsBox.Avalonia.Models;
 using OpenSSH_GUI.Core.Database.Context;
 using OpenSSH_GUI.Core.Enums;
+using OpenSSH_GUI.Core.Extensions;
 using OpenSSH_GUI.Core.Interfaces.Keys;
 using OpenSSH_GUI.Core.Interfaces.Misc;
 using OpenSSH_GUI.Core.Lib.Misc;
@@ -53,12 +54,18 @@ public class MainWindowViewModel : ViewModelBase<MainWindowViewModel>
     private bool? _fingerPrintSort;
     private MaterialIconKind _fingerPrintSortDirectionIcon = MaterialIconKind.CircleOutline;
 
+    private bool? _pathSort;
+    private MaterialIconKind _pathSortDirectionIcon = MaterialIconKind.CircleOutline;
+
     private MaterialIcon _itemsCount = new()
     {
         Kind = MaterialIconKind.NumericZero,
         Width = 20,
         Height = 20
     };
+
+    private int _keysInSshDirectoryCount;
+    private int _keysInAlternateLocationsCount;
 
     private bool? _keyTypeSort;
 
@@ -80,7 +87,12 @@ public class MainWindowViewModel : ViewModelBase<MainWindowViewModel>
         foreach (var key in DirectoryCrawler.GetAllKeysYield().ToBlockingEnumerable()) SshKeys.Add(key);
         _serverConnection = new ServerConnection("123", "123", "123");
         EvaluateAppropriateIcon();
-        _sshKeys.CollectionChanged += (sender, args) => EvaluateAppropriateIcon();
+        UpdateKeyCounts();
+        _sshKeys.CollectionChanged += (sender, args) =>
+        {
+            EvaluateAppropriateIcon();
+            UpdateKeyCounts();
+        };
         var version = Assembly.GetExecutingAssembly().GetName().Version;
         Version = version is null ? "0.0.0" : string.Format(StringsAndTexts.Version, version?.Major, version?.Minor, version?.Build);
     }
@@ -182,6 +194,10 @@ public class MainWindowViewModel : ViewModelBase<MainWindowViewModel>
         ReactiveCommand.CreateFromTask<ISshKey, ExportWindowViewModel?>(async key =>
             await ShowExportWindowWithText(key, false));
 
+    public ReactiveCommand<ISshKey, ExportWindowViewModel?> OpenFingerprintWindow =>
+        ReactiveCommand.CreateFromTask<ISshKey, ExportWindowViewModel?>(async key =>
+            await ShowFingerprintWindow(key));
+
     public ReactiveCommand<Unit, EditAuthorizedKeysViewModel?> OpenEditAuthorizedKeysWindow =>
         ReactiveCommand.CreateFromTask<Unit, EditAuthorizedKeysViewModel?>(
             async e =>
@@ -280,6 +296,7 @@ public class MainWindowViewModel : ViewModelBase<MainWindowViewModel>
     {
         SshKeys.Clear();
         await foreach (var key in DirectoryCrawler.GetAllKeysYield(true, input)) SshKeys.Add(key);
+        UpdateKeyCounts();
         return input;
     });
 
@@ -393,7 +410,23 @@ public class MainWindowViewModel : ViewModelBase<MainWindowViewModel>
     public ObservableCollection<ISshKey?> SshKeys
     {
         get => _sshKeys;
-        set => this.RaiseAndSetIfChanged(ref _sshKeys, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _sshKeys, value);
+            UpdateKeyCounts();
+        }
+    }
+
+    public int KeysInSshDirectoryCount
+    {
+        get => _keysInSshDirectoryCount;
+        private set => this.RaiseAndSetIfChanged(ref _keysInSshDirectoryCount, value);
+    }
+
+    public int KeysInAlternateLocationsCount
+    {
+        get => _keysInAlternateLocationsCount;
+        private set => this.RaiseAndSetIfChanged(ref _keysInAlternateLocationsCount, value);
     }
 
     public bool? KeyTypeSort
@@ -462,6 +495,28 @@ public class MainWindowViewModel : ViewModelBase<MainWindowViewModel>
         set => this.RaiseAndSetIfChanged(ref _fingerPrintSortDirectionIcon, value);
     }
 
+    public bool? PathSort
+    {
+        get => _pathSort;
+        set
+        {
+            PathSortDirectionIcon = EvaluateSortIconKind(value);
+            SshKeys = new ObservableCollection<ISshKey>(value switch
+            {
+                null => SshKeys.OrderBy(e => e.Id),
+                true => SshKeys.OrderBy(e => e.AbsoluteFilePath),
+                false => SshKeys.OrderByDescending(e => e.AbsoluteFilePath)
+            });
+            this.RaiseAndSetIfChanged(ref _pathSort, value);
+        }
+    }
+
+    public MaterialIconKind PathSortDirectionIcon
+    {
+        get => _pathSortDirectionIcon;
+        set => this.RaiseAndSetIfChanged(ref _pathSortDirectionIcon, value);
+    }
+
     private async Task UpdateKeyInDatabase(ISshKey key)
     {
         await using var context = new OpenSshGuiDbContext();
@@ -500,6 +555,15 @@ public class MainWindowViewModel : ViewModelBase<MainWindowViewModel>
         return await ShowExportWindow.Handle(exportViewModel);
     }
 
+    private async Task<ExportWindowViewModel?> ShowFingerprintWindow(ISshKey key)
+    {
+        var exportViewModel = new ExportWindowViewModel();
+        exportViewModel.Export = key.Fingerprint;
+        exportViewModel.WindowTitle = string.Format(StringsAndTexts.MainWindowViewModelFingerprintWindowTitle,
+            Enum.GetName(key.KeyType.BaseType), key.Filename);
+        return await ShowExportWindow.Handle(exportViewModel);
+    }
+
 
     private void EvaluateAppropriateIcon()
     {
@@ -532,5 +596,33 @@ public class MainWindowViewModel : ViewModelBase<MainWindowViewModel>
             true => MaterialIconKind.ChevronDownCircleOutline,
             false => MaterialIconKind.ChevronUpCircleOutline
         };
+    }
+
+    private void UpdateKeyCounts()
+    {
+        var baseSshPath = SshConfigFilesExtension.GetBaseSshPath();
+        var keysInSshDirectory = 0;
+        var keysInAlternateLocations = 0;
+
+        foreach (var key in SshKeys)
+        {
+            if (key == null) continue;
+            
+            var keyPath = key.AbsoluteFilePath;
+            if (string.IsNullOrEmpty(keyPath)) continue;
+
+            // Check if the key is in the base SSH directory
+            if (keyPath.StartsWith(baseSshPath, StringComparison.OrdinalIgnoreCase))
+            {
+                keysInSshDirectory++;
+            }
+            else
+            {
+                keysInAlternateLocations++;
+            }
+        }
+
+        KeysInSshDirectoryCount = keysInSshDirectory;
+        KeysInAlternateLocationsCount = keysInAlternateLocations;
     }
 }
