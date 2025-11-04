@@ -177,6 +177,18 @@ namespace OpenSSH_GUI {
             }
         }
         
+        public static string ButtonCopy {
+            get {
+                return ResourceManager.GetString("ButtonCopy", resourceCulture);
+            }
+        }
+        
+        public static string ButtonCancel {
+            get {
+                return ResourceManager.GetString("ButtonCancel", resourceCulture);
+            }
+        }
+        
         public static string KeyFormatDescription {
             get {
                 return ResourceManager.GetString("KeyFormatDescription", resourceCulture);
@@ -219,6 +231,12 @@ namespace OpenSSH_GUI {
             }
         }
         
+        public static string MainWindowDataGridColumnHeadingPathText {
+            get {
+                return ResourceManager.GetString("MainWindowDataGridColumnHeadingPathText", resourceCulture);
+            }
+        }
+        
         public static string MainWindowDataGridControlsDeleteKeyToolTipText {
             get {
                 return ResourceManager.GetString("MainWindowDataGridControlsDeleteKeyToolTipText", resourceCulture);
@@ -234,6 +252,24 @@ namespace OpenSSH_GUI {
         public static string MainWindowDataGridControlsExportPublicKeyToolTipText {
             get {
                 return ResourceManager.GetString("MainWindowDataGridControlsExportPublicKeyToolTipText", resourceCulture);
+            }
+        }
+        
+        public static string MainWindowDataGridControlsViewPrivateKeyToolTipText {
+            get {
+                return ResourceManager.GetString("MainWindowDataGridControlsViewPrivateKeyToolTipText", resourceCulture);
+            }
+        }
+        
+        public static string MainWindowDataGridControlsViewPublicKeyToolTipText {
+            get {
+                return ResourceManager.GetString("MainWindowDataGridControlsViewPublicKeyToolTipText", resourceCulture);
+            }
+        }
+        
+        public static string MainWindowDataGridControlsViewFingerprintToolTipText {
+            get {
+                return ResourceManager.GetString("MainWindowDataGridControlsViewFingerprintToolTipText", resourceCulture);
             }
         }
         
@@ -273,6 +309,12 @@ namespace OpenSSH_GUI {
             }
         }
         
+        public static string MainWindowFoundKeyPairsCountLabelPart3 {
+            get {
+                return ResourceManager.GetString("MainWindowFoundKeyPairsCountLabelPart3", resourceCulture);
+            }
+        }
+        
         public static string MainWindowTitle {
             get {
                 return ResourceManager.GetString("MainWindowTitle", resourceCulture);
@@ -294,6 +336,12 @@ namespace OpenSSH_GUI {
         public static string MainWindowViewModelDynamicExportWindowTitle {
             get {
                 return ResourceManager.GetString("MainWindowViewModelDynamicExportWindowTitle", resourceCulture);
+            }
+        }
+        
+        public static string MainWindowViewModelFingerprintWindowTitle {
+            get {
+                return ResourceManager.GetString("MainWindowViewModelFingerprintWindowTitle", resourceCulture);
             }
         }
         

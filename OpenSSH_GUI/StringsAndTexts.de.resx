@@ -129,6 +129,12 @@
     <data name="ExportWindowCopyToClipboardToolTipText" xml:space="preserve">
         <value>In Zwischenablage kopieren</value>
     </data>
+    <data name="ButtonCopy" xml:space="preserve">
+        <value>Kopieren</value>
+    </data>
+    <data name="ButtonCancel" xml:space="preserve">
+        <value>Abbrechen</value>
+    </data>
     <data name="KeyFormatDescription" xml:space="preserve">
         <value>Schlüsselformat</value>
     </data>
@@ -151,7 +157,7 @@
         <value>Kommentar</value>
     </data>
     <data name="MainWindowDataGridColumnHeadingExportDeleteText" xml:space="preserve">
-        <value>Exportieren / Löschen</value>
+        <value>Anzeigen / Löschen</value>
     </data>
     <data name="MainWindowDataGridColumnHeadingFingerprintText" xml:space="preserve">
         <value>Fingerabdruck</value>
@@ -171,6 +177,9 @@
     <data name="MainWindowDataGridControlsExportPublicKeyToolTipText" xml:space="preserve">
         <value>Öffentlichen Schlüssel exportieren</value>
     </data>
+    <data name="MainWindowDataGridControlsViewFingerprintToolTipText" xml:space="preserve">
+        <value>Fingerabdruck anzeigen</value>
+    </data>
     <data name="MainWindowDataGridRowDetailsAbsolutePathText" xml:space="preserve">
         <value>Absoluter Pfad:</value>
     </data>
@@ -187,7 +196,10 @@
         <value>"known_hosts"-Datei bearbeiten</value>
     </data>
     <data name="MainWindowFoundKeyPairsCountLabelPart2" xml:space="preserve">
-        <value>Schlüsselpaare im SSH-Verzeichnis gefunden</value>
+        <value>Schlüsselpaare im SSH-Verzeichnis.</value>
+    </data>
+    <data name="MainWindowFoundKeyPairsCountLabelPart3" xml:space="preserve">
+        <value>Schlüsselpaare an anderen Speicherorten</value>
     </data>
     <data name="MainWindowIsNotRemoteTooltipText" xml:space="preserve">
         <value>Mit einem Server verbinden, um die Datei auf dem Server zu bearbeiten!</value>
@@ -208,7 +220,10 @@
         <value>{0} löschen?</value>
     </data>
     <data name="MainWindowViewModelDynamicExportWindowTitle" xml:space="preserve">
-        <value>{0}-Schlüssel exportieren: {1}</value>
+        <value>{0}-Schlüssel anzeigen: {1}</value>
+    </data>
+    <data name="MainWindowViewModelFingerprintWindowTitle" xml:space="preserve">
+        <value>Fingerabdruck für {0}-Schlüssel: {1}</value>
     </data>
     <data name="MainWindowViewModelExportKeyErrorMessage" xml:space="preserve">
         <value>Fehler beim Exportieren der Schlüsseldatei</value>
