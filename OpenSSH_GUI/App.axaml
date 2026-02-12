@@ -3,6 +3,7 @@
              x:Class="OpenSSH_GUI.App"
              xmlns:avalonia="clr-namespace:Material.Icons.Avalonia;assembly=Material.Icons.Avalonia"
              xmlns:openSshGui="clr-namespace:OpenSSH_GUI"
+             xmlns:semi="https://irihi.tech/semi"
              RequestedThemeVariant="Default">
     <!-- "Default" ThemeVariant follows system theme variant. "Dark" or "Light" are other available options. -->
     <Application.Resources>
@@ -18,8 +19,17 @@
     </Application.DataTemplates>
 
     <Application.Styles>
-        <FluentTheme DensityStyle="Compact" />
+        <semi:SemiTheme/>
+        <StyleInclude Source="avares://Semi.Avalonia.DataGrid/Index.axaml" />
         <avalonia:MaterialIconStyles />
+        <Style Selector="ToolTipPresenter">
+            <Setter Property="Background" Value="{DynamicResource ThemeControlHighBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource ThemeForegroundBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ThemeControlMidBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="8,6" />
+            <Setter Property="CornerRadius" Value="6" />
+        </Style>
     </Application.Styles>
 
     <TrayIcon.Icons>

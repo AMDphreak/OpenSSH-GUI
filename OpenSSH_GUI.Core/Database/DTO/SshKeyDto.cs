@@ -2,6 +2,7 @@
 // Created: 17.05.2024 - 08:05:19
 // Last edit: 17.05.2024 - 08:05:19
 
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using OpenSSH_GUI.Core.Interfaces.Keys;
 using OpenSSH_GUI.Core.Lib.Static;
@@ -26,7 +27,7 @@ public class SshKeyDto
     /// <summary>
     ///     Gets or sets the absolute path of the SSH key.
     /// </summary>
-    public string AbsolutePath { get; set; }
+    public string AbsolutePath { get; set; } = string.Empty;
 
     /// <summary>
     ///     Represents the format of an SSH key.
@@ -42,7 +43,8 @@ public class SshKeyDto
     /// <summary>
     ///     Represents the connection credentials for SSH connection.
     /// </summary>
-    public virtual IEnumerable<ConnectionCredentialsDto> ConnectionCredentialsDto { get; set; }
+    public virtual IEnumerable<ConnectionCredentialsDto> ConnectionCredentialsDto { get; set; } =
+        new List<ConnectionCredentialsDto>();
 
     /// <summary>
     ///     Converts an instance of <see cref="SshKeyDto" /> to an instance of <see cref="ISshKey" />.

@@ -153,11 +153,16 @@
                     <Button Padding="5" Grid.Column="1" HorizontalAlignment="Stretch" 
                             Width="50"
                             VerticalAlignment="Center"
-                            Background="LightBlue"
+                            Background="{DynamicResource ThemeControlLowBrush}"
                             Command="{Binding Path=$parent[Window].((viewModels:MainWindowViewModel)DataContext).OpenFingerprintWindow}"
                             CommandParameter="{Binding .}"
                             IsVisible="{Binding !NeedPassword}"
                             ToolTip.Tip="{x:Static openSshGui:StringsAndTexts.MainWindowDataGridControlsViewFingerprintToolTipText}">
+                        <Button.Styles>
+                            <Style Selector="Button:pointerover">
+                                <Setter Property="Background" Value="{DynamicResource ThemeControlHighBrush}" />
+                            </Style>
+                        </Button.Styles>
                         <avalonia:MaterialIcon Kind="Fingerprint" />
                     </Button>
                     <ScrollViewer Grid.Column="2" 
@@ -188,11 +193,12 @@
                         <Button Padding="5" Grid.Column="0" HorizontalAlignment="Center"
                                 Command="{Binding $parent[Window].((viewModels:MainWindowViewModel)DataContext).OpenExportKeyWindowPublic}"
                                 CommandParameter="{Binding .}"
-                                Background="#F5F5F5"
+                                Background="{DynamicResource ThemeControlLowBrush}"
                                 BorderBrush="#00AA00"
                                 BorderThickness="2">
                             <Button.Styles>
                                 <Style Selector="Button:pointerover">
+                                    <Setter Property="Background" Value="{DynamicResource ThemeControlHighBrush}" />
                                     <Setter Property="BorderBrush" Value="#006600" />
                                 </Style>
                                 <Style Selector="Button:pointerover /template/ avalonia|MaterialIcon">
@@ -210,11 +216,12 @@
                         <Button Padding="5" Grid.Column="1" HorizontalAlignment="Center"
                                 Command="{Binding $parent[Window].((viewModels:MainWindowViewModel)DataContext).OpenExportKeyWindowPrivate}"
                                 CommandParameter="{Binding .}"
-                                Background="#F5F5F5"
+                                Background="{DynamicResource ThemeControlLowBrush}"
                                 BorderBrush="#0066CC"
                                 BorderThickness="2">
                             <Button.Styles>
                                 <Style Selector="Button:pointerover">
+                                    <Setter Property="Background" Value="{DynamicResource ThemeControlHighBrush}" />
                                     <Setter Property="BorderBrush" Value="#004499" />
                                 </Style>
                                 <Style Selector="Button:pointerover /template/ avalonia|MaterialIcon">
@@ -232,11 +239,12 @@
                         <Button Padding="5" Grid.Column="2" HorizontalAlignment="Center"
                                 Command="{Binding $parent[Window].((viewModels:MainWindowViewModel)DataContext).DeleteKey}"
                                 CommandParameter="{Binding .}"
-                                Background="#F5F5F5"
+                                Background="{DynamicResource ThemeControlLowBrush}"
                                 BorderBrush="#CC0000"
                                 BorderThickness="2">
                             <Button.Styles>
                                 <Style Selector="Button:pointerover">
+                                    <Setter Property="Background" Value="{DynamicResource ThemeControlHighBrush}" />
                                     <Setter Property="BorderBrush" Value="#990000" />
                                 </Style>
                                 <Style Selector="Button:pointerover /template/ avalonia|MaterialIcon">
@@ -252,11 +260,12 @@
                         <Button Padding="5" Grid.Column="3" HorizontalAlignment="Center"
                                 Command="{Binding $parent[Window].((viewModels:MainWindowViewModel)DataContext).ConvertKey}"
                                 CommandParameter="{Binding .}"
-                                Background="#F5F5F5"
+                                Background="{DynamicResource ThemeControlLowBrush}"
                                 BorderBrush="#0088CC"
                                 BorderThickness="2">
                             <Button.Styles>
                                 <Style Selector="Button:pointerover">
+                                    <Setter Property="Background" Value="{DynamicResource ThemeControlHighBrush}" />
                                     <Setter Property="BorderBrush" Value="#006699" />
                                 </Style>
                                 <Style Selector="Button:pointerover /template/ avalonia|MaterialIcon">

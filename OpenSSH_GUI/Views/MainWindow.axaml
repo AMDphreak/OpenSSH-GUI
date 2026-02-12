@@ -91,9 +91,14 @@
             <Setter Property="Foreground" Value="#006699" />
         </Style>
         
+        <!-- Status panel button default styles -->
+        <Style Selector="Button.StatusPanelButton">
+            <Setter Property="Background" Value="{DynamicResource ThemeControlLowBrush}" />
+        </Style>
+
         <!-- Status panel button hover styles -->
         <Style Selector="Button.StatusPanelButton:pointerover">
-            <Setter Property="Background" Value="#D3D3D3" />
+            <Setter Property="Background" Value="{DynamicResource ThemeControlHighBrush}" />
         </Style>
         
         <!-- Table row separator styling -->
@@ -195,7 +200,7 @@
 
         <Grid Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="3" RowDefinitions="Auto" ColumnDefinitions="Auto * Auto" 
               MinHeight="50" VerticalAlignment="Bottom" HorizontalAlignment="Stretch"
-              Background="#F5F5F5">
+              Background="{DynamicResource ThemeControlLowBrush}">
 
             <!-- Action Buttons Group -->
             <Grid Grid.Column="0" ColumnDefinitions="Auto Auto Auto" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10 5">
@@ -206,7 +211,7 @@
                         VerticalAlignment="Center"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Background="#F5F5F5"
+                        Background="{DynamicResource ThemeControlLowBrush}"
                         BorderBrush="#00AA00"
                         BorderThickness="2"
                         MinWidth="80" MinHeight="40"
@@ -224,7 +229,7 @@
                         VerticalAlignment="Center"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Background="#F5F5F5"
+                        Background="{DynamicResource ThemeControlLowBrush}"
                         BorderBrush="#0066CC"
                         BorderThickness="2"
                         MinWidth="80" MinHeight="40"
@@ -246,7 +251,7 @@
                         VerticalAlignment="Center"
                         HorizontalContentAlignment="Center"
                         VerticalContentAlignment="Center"
-                        Background="#F5F5F5"
+                        Background="{DynamicResource ThemeControlLowBrush}"
                         BorderBrush="#0088CC"
                         BorderThickness="2"
                         Command="{Binding OpenEditAuthorizedKeysWindow}"
@@ -269,13 +274,13 @@
 
             <!-- Status Panel -->
             <Border Grid.Column="2" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="10 5"
-                    Background="GhostWhite" CornerRadius="5" MinHeight="50">
+                    Background="{DynamicResource ThemeControlMidBrush}" CornerRadius="5" MinHeight="50">
             <Grid ColumnDefinitions="Auto Auto Auto Auto" HorizontalAlignment="Right">
 
                 <!-- Connection -->
 
                 <Button Grid.Column="0" Classes="StatusPanelButton" HorizontalAlignment="Stretch" VerticalAlignment="Center"
-                        Background="Gainsboro" Margin="5" Padding="7" CornerRadius="5" MinWidth="50" MinHeight="40"
+                        Background="{DynamicResource ThemeControlLowBrush}" Margin="5" Padding="7" CornerRadius="5" MinWidth="50" MinHeight="40"
                         Name="ConnectionButton"
                         Click="ConnectionButton_Click">
                     <ToolTip.Tip>
@@ -330,7 +335,7 @@
 
                 <!-- Item Count -->
 
-                <Button Grid.Column="1" Classes="StatusPanelButton" Background="Gainsboro" Margin="5" Padding="5" HorizontalAlignment="Stretch"
+                <Button Grid.Column="1" Classes="StatusPanelButton" Background="{DynamicResource ThemeControlLowBrush}" Margin="5" Padding="5" HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch" CornerRadius="5" MinWidth="50" MinHeight="40"
                         Name="ItemCountButton"
                         Click="ItemCountButton_Click"
@@ -359,7 +364,7 @@
 
                 <!-- Settings -->
 
-                <Button Grid.Column="2" Classes="StatusPanelButton" Background="Gainsboro" Margin="5" Padding="7" HorizontalAlignment="Stretch"
+                <Button Grid.Column="2" Classes="StatusPanelButton" Background="{DynamicResource ThemeControlLowBrush}" Margin="5" Padding="7" HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch" CornerRadius="5" MinWidth="50" MinHeight="40"
                         Name="SettingsButton"
                         Click="SettingsButton_Click">
@@ -438,7 +443,7 @@
 
                 <!-- Help -->
 
-                <Button Grid.Column="3" Classes="StatusPanelButton" Background="Gainsboro" Margin="5" Padding="7" HorizontalAlignment="Stretch"
+                <Button Grid.Column="3" Classes="StatusPanelButton" Background="{DynamicResource ThemeControlLowBrush}" Margin="5" Padding="7" HorizontalAlignment="Stretch"
                         VerticalAlignment="Stretch" CornerRadius="5" MinWidth="50" MinHeight="40"
                         Name="HelpButton"
                         Click="HelpButton_Click">

@@ -6,8 +6,10 @@
 
 #endregion
 
+using System;
 using OpenSSH_GUI.Core.Database.Context;
 using OpenSSH_GUI.Core.Database.DTO;
+using OpenSSH_GUI.Core.Enums;
 using OpenSSH_GUI.Core.Extensions;
 using OpenSSH_GUI.Core.Interfaces.AuthorizedKeys;
 using OpenSSH_GUI.Core.Interfaces.Keys;
@@ -38,13 +40,17 @@ public abstract class KeyBase : IKeyBase
     /// </summary>
     protected KeyBase(string absoluteFilePath, string? password = null)
     {
-        AbsoluteFilePath = absoluteFilePath;
+        AbsoluteFilePath = absoluteFilePath ?? throw new ArgumentNullException(nameof(absoluteFilePath));
         Filename = Path.GetFileName(AbsoluteFilePath);
         Password = password;
+        KeyType = new SshKeyType(OpenSSH_GUI.Core.Enums.KeyType.RSA);
+        Fingerprint = string.Empty;
         SetKeySource();
-        if (NeedPassword) return;
-        KeyType = new SshKeyType(_keySource.HostKeyAlgorithms.FirstOrDefault()?.Name);
-        Fingerprint = _keySource.FingerprintHash();
+        if (NeedPassword || _keySource is null) return;
+        var algorithmName = _keySource.HostKeyAlgorithms.FirstOrDefault()?.Name;
+        if (!string.IsNullOrWhiteSpace(algorithmName))
+            KeyType = new SshKeyType(algorithmName);
+        Fingerprint = _keySource.FingerprintHash() ?? string.Empty;
     }
 
     /// <summary>
@@ -55,7 +61,7 @@ public abstract class KeyBase : IKeyBase
     /// <summary>
     ///     Represents the type of SSH key.
     /// </summary>
-    public ISshKeyType KeyType { get; }
+    public ISshKeyType KeyType { get; protected set; }
 
     /// <summary>
     ///     Gets a value indicating whether the key requires a password.
@@ -101,7 +107,7 @@ public abstract class KeyBase : IKeyBase
     /// <summary>
     ///     Represents a fingerprint of a key.
     /// </summary>
-    public string Fingerprint { get; protected set; }
+    public string Fingerprint { get; protected set; } = string.Empty;
 
     /// <summary>
     ///     Exports the authorized key entry for the key.
@@ -160,7 +166,11 @@ public abstract class KeyBase : IKeyBase
     /// <returns>The authorized key entry in OpenSSH format.</returns>
     public IAuthorizedKey ExportAuthorizedKey()
     {
-        return new AuthorizedKey(ExportAuthorizedKeyEntry());
+        var entry = ExportAuthorizedKeyEntry();
+        if (string.IsNullOrWhiteSpace(entry))
+            throw new InvalidOperationException("Unable to export authorized key entry without data.");
+
+        return new AuthorizedKey(entry);
     }
 
     /// <summary>
@@ -239,13 +249,15 @@ public abstract class KeyBase : IKeyBase
             _keySource = GetKeySource();
             if (Password is not null) PasswordSuccess = true;
         }
-        catch (SshPassPhraseNullOrEmptyException e)
+        catch (SshPassPhraseNullOrEmptyException)
         {
-            Password = "";
+            Password = string.Empty;
+            _keySource = null;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             // ignored
+            _keySource = null;
         }
     }
 }
